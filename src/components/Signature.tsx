@@ -11,6 +11,7 @@ export default function Signature({
 }: SignatureProps) {
   return (
     <p
+      dir="auto"
       className={`signature text-center ${
         tone === 'dark' ? 'text-slate-300' : 'text-slate-600'
       } ${className}`}
