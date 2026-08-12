@@ -26,12 +26,6 @@ const quickCommands = [
   { label: '📸 أفكار لصور جديدة', text: 'أعطني أفكارًا إبداعية لجلسة تصوير جديدة' },
 ];
 
-let idCounter = 0;
-const nextId = () => {
-  idCounter += 1;
-  return `msg-${idCounter}`;
-};
-
 const nowTime = () =>
   new Date().toLocaleTimeString('ar', { hour: '2-digit', minute: '2-digit' });
 
@@ -54,10 +48,10 @@ const aiReply = (userText: string): string => {
 export default function ChatPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
-      id: nextId(),
+      id: 'welcome',
       role: 'ai',
       text: 'أهلًا بك في محادثة JNOOOBY الذكية! 👋 أرسل رسالة أو صورة، أو جرّب الأوامر الجاهزة.',
-      time: nowTime(),
+      time: '',
     },
   ]);
   const [input, setInput] = useState('');
@@ -66,6 +60,20 @@ export default function ChatPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const idCounterRef = useRef(0);
+
+  const nextId = () => {
+    idCounterRef.current += 1;
+    return `msg-${idCounterRef.current}`;
+  };
+
+  useEffect(() => {
+    setMessages((prev) =>
+      prev.map((msg) =>
+        msg.id === 'welcome' && !msg.time ? { ...msg, time: nowTime() } : msg
+      )
+    );
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

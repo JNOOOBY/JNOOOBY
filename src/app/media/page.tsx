@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import NavBar from '@/components/NavBar';
 import Signature from '@/components/Signature';
 
@@ -103,8 +103,6 @@ const initialCharacters: Character[] = [
   },
 ];
 
-let mediaIdCounter = 0;
-
 const sectionTitle = (icon: string, title: string) => (
   <h2 className="text-2xl font-extrabold text-slate-800 mb-1 flex items-center gap-2">
     <span>{icon}</span>
@@ -117,6 +115,7 @@ export default function MediaPage() {
   const [openCharacterId, setOpenCharacterId] = useState<string | null>(null);
   const [typeFilter, setTypeFilter] = useState<'all' | MediaType>('all');
   const [sortBy, setSortBy] = useState<'default' | 'type'>('default');
+  const mediaIdCounterRef = useRef(0);
 
   const openCharacter = characters.find((c) => c.id === openCharacterId) ?? null;
 
@@ -133,12 +132,13 @@ export default function MediaPage() {
   }, [openCharacter, typeFilter, sortBy]);
 
   const addMedia = (characterId: string) => {
-    mediaIdCounter += 1;
-    const isVideo = mediaIdCounter % 2 === 0;
+    mediaIdCounterRef.current += 1;
+    const counter = mediaIdCounterRef.current;
+    const isVideo = counter % 2 === 0;
     const newItem: MediaItem = {
-      id: `new-${mediaIdCounter}`,
+      id: `new-${counter}`,
       type: isVideo ? 'video' : 'image',
-      title: `وسائط جديدة ${mediaIdCounter}`,
+      title: `وسائط جديدة ${counter}`,
       gradient: isVideo ? 'from-indigo-100 to-indigo-300' : 'from-pink-100 to-pink-300',
       icon: isVideo ? '🎬' : '🖼️',
       addedManually: true,
