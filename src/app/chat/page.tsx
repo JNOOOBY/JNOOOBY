@@ -41,6 +41,8 @@ const quickCommands: QuickCommand[] = [
   },
 ];
 
+const MOCK_REPLY_DELAY_MS = 280;
+
 const createAssistantReply = (message: string, imageCount: number) => {
   const cleanedMessage = message.trim();
 
@@ -77,6 +79,8 @@ export default function ChatPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const createdUrlsRef = useRef<string[]>([]);
+  const replyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isMountedRef = useRef(true);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -84,7 +88,11 @@ export default function ChatPage() {
 
   useEffect(() => {
     return () => {
+      isMountedRef.current = false;
       createdUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
+      if (replyTimerRef.current) {
+        clearTimeout(replyTimerRef.current);
+      }
     };
   }, []);
 
@@ -110,7 +118,14 @@ export default function ChatPage() {
 
     setMessages((current) => [...current, userEntry]);
 
-    await new Promise((resolve) => setTimeout(resolve, 280));
+    await new Promise((resolve) => {
+      replyTimerRef.current = setTimeout(resolve, MOCK_REPLY_DELAY_MS);
+    });
+    replyTimerRef.current = null;
+
+    if (!isMountedRef.current) {
+      return;
+    }
 
     setMessages((current) => [
       ...current,

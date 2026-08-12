@@ -24,14 +24,7 @@ type PrismaLike = {
   };
 };
 
-const demoUsers: UserRecord[] = [
-  {
-    id: 'demo-user',
-    email: 'demo@cloudimage.app',
-    name: 'Demo User',
-    password: '$2b$10$CM1wxLimTJW4/MnGKJVEr.RoR1GHgIPoCKCpKeh1qLJoO25UBgH36',
-  },
-];
+const demoUsers: UserRecord[] = [];
 
 const chatHistory: ChatMessageRecord[] = [];
 

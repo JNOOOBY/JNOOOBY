@@ -264,21 +264,10 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <div className="mt-6 relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Demo Credentials</span>
-            </div>
-          </div>
-
-          <div className="mt-4 p-3 bg-gray-50 rounded-lg text-center">
-            <p className="text-xs text-gray-600 mb-2">
-              <strong>Demo Email:</strong> demo@cloudimage.app
-            </p>
+          <div className="mt-6 rounded-lg bg-gray-50 p-3 text-center">
             <p className="text-xs text-gray-600">
-              <strong>Password:</strong> Demo123!
+              يمكنك إنشاء حساب تجريبي محلي مباشرة من هذه الصفحة ثم الدخول به بدون إعدادات
+              إضافية.
             </p>
           </div>
         </div>
