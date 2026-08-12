@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'CloudImage - Cloud Storage & Image Management',
+  title: 'JNOOOBY — منصّة الوسائط والمحادثة الذكية',
   description:
-    'Organize, manage, and enhance your images in the cloud with AI-powered assistance',
+    'واجهة JNOOOBY: الصفحة الرئيسية، المحادثة الذكية، وإدارة الوسائط والشخصيات بتصميم عربي حديث',
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" dir="ltr">
+    <html lang="ar" dir="rtl">
       <body className="bg-gray-50 text-gray-900">
         {children}
       </body>

@@ -2,7 +2,6 @@
 
 import { useState, FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 
 type FormState = {
   email: string;

@@ -24,7 +24,6 @@ export default function StoragePage() {
   const [files, setFiles] = useState<FileItem[]>([]);
   const [currentProject, setCurrentProject] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
   const [sortBy, setSortBy] = useState<'name' | 'size' | 'date'>('name');
   const [filterType, setFilterType] = useState<'all' | 'images' | 'documents'>('all');
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -51,7 +50,7 @@ export default function StoragePage() {
     loadFiles('1');
   };
 
-  const loadFiles = async (projectId: string) => {
+  const loadFiles = async (_projectId: string) => {
     // Mock files
     const mockFiles: FileItem[] = [
       {
