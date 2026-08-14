@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate || exit 0"
   },
   "repository": {
     "type": "git",
