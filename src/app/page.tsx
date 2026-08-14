@@ -61,7 +61,7 @@ export default function HomePage() {
             <Link
               key={card.title}
               href={card.href}
-              className="glass-card rounded-3xl p-8 text-center shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2 fade-in-up"
+              className="group glass-card rounded-3xl p-8 text-center shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2 fade-in-up"
               style={{ animationDelay: `${0.15 * (i + 1)}s` }}
             >
               <div

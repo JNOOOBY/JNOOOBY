@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import NavBar from '@/components/NavBar';
 import Signature from '@/components/Signature';
 
@@ -118,6 +118,16 @@ export default function MediaPage() {
   const mediaIdCounterRef = useRef(0);
 
   const openCharacter = characters.find((c) => c.id === openCharacterId) ?? null;
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpenCharacterId(null);
+    };
+    if (openCharacterId) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [openCharacterId]);
 
   const visibleMedia = useMemo(() => {
     if (!openCharacter) return [];
