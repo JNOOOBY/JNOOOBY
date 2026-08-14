@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
+import { prisma, isDatabaseAvailable } from '@/lib/db';
 import { comparePasswords, generateToken } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
+  if (!isDatabaseAvailable()) {
+    return NextResponse.json(
+      { error: 'Database not configured' },
+      { status: 503 }
+    );
+  }
+
   try {
     const { email, password } = await req.json();
 
@@ -13,7 +20,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const user = await prisma.user.findUnique({
+    const user = await prisma!.user.findUnique({
       where: { email: email.toLowerCase() },
     });
 

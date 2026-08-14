@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
+import { prisma, isDatabaseAvailable } from '@/lib/db';
 import { verifyToken } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
@@ -38,15 +38,17 @@ Here are some recommendations:
 
 Would you like specific advice on any of these areas?`;
 
-    // Save chat message to database
-    await prisma.chatMessage.create({
-      data: {
-        userId: decoded.userId,
-        message,
-        response: mockResponse,
-        context: { timestamp: new Date().toISOString() },
-      },
-    });
+    // Save chat message to database (if available)
+    if (isDatabaseAvailable()) {
+      await prisma!.chatMessage.create({
+        data: {
+          userId: decoded.userId,
+          message,
+          response: mockResponse,
+          context: { timestamp: new Date().toISOString() },
+        },
+      });
+    }
 
     return NextResponse.json({
       message,
