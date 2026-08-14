@@ -4,7 +4,8 @@ import { comparePasswords, generateToken } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, password } = await req.json();
+    const body = await req.json() as { email?: string; password?: string };
+    const { email, password } = body;
 
     if (!email || !password) {
       return NextResponse.json(
@@ -51,3 +52,4 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+

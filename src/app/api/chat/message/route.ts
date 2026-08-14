@@ -16,7 +16,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
-    const { message } = await req.json();
+    const body = await req.json() as { message?: string };
+    const { message } = body;
 
     if (!message) {
       return NextResponse.json(
@@ -25,8 +26,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // In production, call OpenAI API here
-    // For now, return a mock response
     const mockResponse = `I understand you're asking about: "${message}". 
 As your CloudImage Assistant, I'm here to help with image organization, enhancement, and cloud storage strategies.
 
@@ -61,3 +60,4 @@ Would you like specific advice on any of these areas?`;
     );
   }
 }
+

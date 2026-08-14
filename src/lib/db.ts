@@ -27,3 +27,4 @@ export const prisma = new Proxy({} as PrismaClient, {
     return (getClient() as unknown as Record<string | symbol, unknown>)[prop];
   },
 });
+

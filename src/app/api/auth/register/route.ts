@@ -4,7 +4,8 @@ import { hashPassword, generateToken } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, password, name } = await req.json();
+    const body = await req.json() as { email?: string; password?: string; name?: string };
+    const { email, password, name } = body;
 
     if (!email || !password) {
       return NextResponse.json(
@@ -62,3 +63,4 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+

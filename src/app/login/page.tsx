@@ -52,7 +52,7 @@ export default function LoginPage() {
         });
 
         if (!res.ok) {
-          const data = await res.json();
+          const data = await res.json() as { error?: string };
           setError(data.error || 'Registration failed');
           setLoading(false);
           return;
@@ -68,13 +68,13 @@ export default function LoginPage() {
         });
 
         if (!res.ok) {
-          const data = await res.json();
+          const data = await res.json() as { error?: string };
           setError(data.error || 'Login failed');
           setLoading(false);
           return;
         }
 
-        const data = await res.json();
+        const data = await res.json() as { token: string };
         localStorage.setItem('token', data.token);
       }
 
