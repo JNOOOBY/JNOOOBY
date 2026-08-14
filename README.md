@@ -2,6 +2,16 @@
 
 A full-stack web application for managing, organizing, and enhancing images in the cloud with AI-powered assistance.
 
+## JNOOOBY Frontend (Arabic, RTL)
+
+The app ships with a modern Arabic RTL interface signed by أبو تيم:
+
+- **الرئيسية (`/`)** — pastel gradient landing page (baby blue, soft purple, mint green) with a large welcome title, an «ابدأ الآن» button leading to the chat, and three cards: رفع الملفات، إدارة الصور، الدخول للمحادثة الذكية.
+- **المحادثة الذكية (`/chat`)** — soft dark theme with transparent bubbles (light purple for the user, sky blue for the AI), a modern input bar with send, image upload, and quick commands, plus demo image upload with a per-image «تحسين الصورة» action inside glass cards.
+- **الوسائط (`/media`)** — organized sections for videos (user + AI), images (user + AI with before/after), and character cards showing image, name, media count, «عرض الكل» and «إضافة وسائط جديدة», with a detail panel offering type filters, sorting, and demo enhancement tools.
+
+All three pages are responsive, interactive locally (no backend required), and carry a small signature at the start and end of each page.
+
 ## Project Features
 
 ### 🔐 Page 1: Authentication & Profile
