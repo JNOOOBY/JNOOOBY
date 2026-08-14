@@ -1,7 +1,9 @@
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@/generated/prisma/client';
 
-const globalForPrisma = global as unknown as { prisma: PrismaClient };
+const globalForPrisma = globalThis as typeof globalThis & {
+  prisma?: PrismaClient;
+};
 
 function buildClient(): PrismaClient {
   const connectionString = process.env.DATABASE_URL;
@@ -24,7 +26,13 @@ function getClient(): PrismaClient {
 // DATABASE_URL is not set in the build environment.
 export const prisma = new Proxy({} as PrismaClient, {
   get(_target, prop) {
-    return (getClient() as unknown as Record<string | symbol, unknown>)[prop];
+    const client = getClient();
+    const value = Reflect.get(
+      client as unknown as Record<string | symbol, unknown>,
+      prop,
+      client
+    );
+
+    return typeof value === 'function' ? value.bind(client) : value;
   },
 });
-
