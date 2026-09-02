@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { verifyToken } from '@/lib/auth';
+import { generateAssistantResponse } from '@/lib/ai';
 
 export async function POST(req: NextRequest) {
   try {
@@ -25,32 +26,26 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // In production, call OpenAI API here
-    // For now, return a mock response
-    const mockResponse = `I understand you're asking about: "${message}". 
-As your CloudImage Assistant, I'm here to help with image organization, enhancement, and cloud storage strategies.
+    const responseText = await generateAssistantResponse(message);
 
-Here are some recommendations:
-1. **Organize by Date**: Create folders by year/month for easy navigation
-2. **Use Descriptive Names**: Name files with content and date (e.g., "vacation-2024-08-12.jpg")
-3. **Leverage Metadata**: Use tags for quick filtering and search
-4. **Regular Backups**: Ensure important images are always backed up
-
-Would you like specific advice on any of these areas?`;
-
-    // Save chat message to database
-    await prisma.chatMessage.create({
-      data: {
-        userId: decoded.userId,
-        message,
-        response: mockResponse,
-        context: { timestamp: new Date().toISOString() },
-      },
-    });
+    // Save chat message to database (best effort: the assistant still replies
+    // when no database is configured yet)
+    try {
+      await prisma.chatMessage.create({
+        data: {
+          userId: decoded.userId,
+          message,
+          response: responseText,
+          context: { timestamp: new Date().toISOString() },
+        },
+      });
+    } catch (error) {
+      console.warn('Could not persist chat message:', error);
+    }
 
     return NextResponse.json({
       message,
-      response: mockResponse,
+      response: responseText,
       timestamp: new Date().toISOString(),
     });
   } catch (error) {

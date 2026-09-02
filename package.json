@@ -4,10 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "setup": "node scripts/setup.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "db:up": "docker compose up -d",
+    "db:push": "prisma db push",
+    "db:seed": "prisma db seed",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
     "postinstall": "prisma generate || exit 0"
@@ -45,6 +49,10 @@
     "autoprefixer": "^10.5.4",
     "eslint": "^9.39.5",
     "postcss": "^8.5.26",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.20.6"
+  },
+  "engines": {
+    "node": ">=20.9.0"
   }
 }

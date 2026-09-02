@@ -4,8 +4,11 @@ import { defineConfig } from 'prisma/config';
 export default defineConfig({
   schema: 'prisma/schema.prisma',
   datasource: {
-    // Fallback placeholder so `prisma generate` works anywhere (CI, Cloudflare, local)
-    // without DATABASE_URL. Real connections still require the env var at runtime.
-    url: process.env.DATABASE_URL ?? 'postgresql://localhost:5432/placeholder',
+    // Falls back to the local development database (see docker-compose.yml)
+    // so Prisma commands work out of the box without DATABASE_URL being set.
+    url: process.env.DATABASE_URL ?? 'postgresql://cloudimage:cloudimage@localhost:5432/cloudimage',
+  },
+  migrations: {
+    seed: 'tsx prisma/seed.ts',
   },
 });
