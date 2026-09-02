@@ -2,6 +2,34 @@
 
 A full-stack web application for managing, organizing, and enhancing images in the cloud with AI-powered assistance.
 
+## 🚀 البدء السريع (بالعربية)
+
+شغّل المشروع بأمرين فقط (يتطلب Node.js 20+ و Docker):
+
+```bash
+npm run setup   # ينسخ .env، يثبّت الحزم، يشغّل قاعدة البيانات، ويضيف الحساب التجريبي
+npm run dev     # يشغّل التطبيق على http://localhost:3000
+```
+
+- بيانات الدخول التجريبية: `demo@cloudimage.app` / `Demo123!`
+- إن لم يكن Docker متاحًا، شغّل PostgreSQL بنفسك وعدّل `DATABASE_URL` في ملف `.env` ثم أعد `npm run setup`.
+- المفاتيح الاختيارية (OpenAI و AWS) غير مطلوبة: المحادثة الذكية تعمل برد محلي تجريبي، والتخزين يعمل محليًا.
+- **عبر GitHub Codespaces**: اضغط **Code ← Codespaces ← Create codespace on main**، سيتم التثبيت وتجهيز قاعدة البيانات تلقائيًا، ثم نفّذ `npm run dev`.
+
+## 🚀 Quick Start (English)
+
+Run the project with two commands (requires Node.js 20+ and Docker):
+
+```bash
+npm run setup   # copies .env, installs packages, starts PostgreSQL, seeds the demo account
+npm run dev     # serves the app on http://localhost:3000
+```
+
+- Demo credentials: `demo@cloudimage.app` / `Demo123!`
+- Without Docker, start your own PostgreSQL, update `DATABASE_URL` in `.env` and re-run `npm run setup`.
+- Optional keys (OpenAI, AWS) are not required: the AI chat falls back to a local mock reply and storage stays local.
+- **GitHub Codespaces**: click **Code → Codespaces → Create codespace on main**; dependencies, database and seed data are prepared automatically, then run `npm run dev`.
+
 ## JNOOOBY Frontend (Arabic, RTL)
 
 The app ships with a modern Arabic RTL interface signed by أبو تيم:
@@ -87,9 +115,9 @@ prisma/
 ## Setup Instructions
 
 ### Prerequisites
-- Node.js 18+
-- PostgreSQL 12+
-- npm or yarn
+- Node.js 20+
+- Docker (optional, provides PostgreSQL via `docker-compose.yml`)
+- npm
 
 ### Installation
 
@@ -98,38 +126,36 @@ prisma/
    cd JNOOOBY
    ```
 
-2. **Install dependencies**
+2. **Run the setup command**
    ```bash
-   npm install
+   npm run setup
    ```
+   It creates `.env` from `.env.example`, installs dependencies, starts the
+   PostgreSQL container (when Docker is available), applies the Prisma schema
+   and seeds the demo account.
 
-3. **Setup environment variables**
-   ```bash
-   cp .env.example .env.local
-   ```
-   Update `.env.local` with your database and API credentials:
-   ```env
-   DATABASE_URL="******localhost:5432/cloudimage"
-   NEXTAUTH_SECRET="generate-with: openssl rand -base64 32"
-   NEXTAUTH_URL="http://localhost:3000"
-   OPENAI_API_KEY="your-openai-key"
-   AWS_ACCESS_KEY_ID="your-aws-key"
-   AWS_SECRET_ACCESS_KEY="your-aws-secret"
-   AWS_REGION="us-east-1"
-   AWS_S3_BUCKET="your-bucket"
-   ```
-
-4. **Setup Database**
-   ```bash
-   npm run prisma:migrate
-   ```
-
-5. **Run development server**
+3. **Run development server**
    ```bash
    npm run dev
    ```
 
    Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Manual environment setup (optional)
+
+`.env` holds every supported variable; only `DATABASE_URL` is required:
+
+```env
+DATABASE_URL="postgresql://cloudimage:cloudimage@localhost:5432/cloudimage"
+NEXTAUTH_SECRET="generate-with: openssl rand -base64 32"
+NEXTAUTH_URL="http://localhost:3000"
+OPENAI_API_KEY=""            # optional: empty means local mock replies
+OPENAI_MODEL="gpt-4o-mini"
+AWS_ACCESS_KEY_ID=""         # optional: empty means local storage behaviour
+AWS_SECRET_ACCESS_KEY=""
+AWS_REGION="us-east-1"
+AWS_S3_BUCKET=""
+```
 
 ## Demo Credentials
 
@@ -235,6 +261,16 @@ npm start
 
 # Lint code
 npm run lint
+
+# One-command setup (env, deps, database, seed)
+npm run setup
+
+# Start only the PostgreSQL container
+npm run db:up
+
+# Apply the Prisma schema / seed the demo account
+npm run db:push
+npm run db:seed
 
 # Run Prisma migrations
 npm run prisma:migrate

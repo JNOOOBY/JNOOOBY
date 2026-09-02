@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: cloudimage-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cloudimage
+      POSTGRES_PASSWORD: cloudimage
+      POSTGRES_DB: cloudimage
+    ports:
+      - '5432:5432'
+    volumes:
+      - cloudimage-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U cloudimage -d cloudimage']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  cloudimage-db-data:
